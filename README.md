@@ -1,52 +1,56 @@
 # 🚀 AWS Nginx Web Server
 
-A production-style static website deployment on **AWS EC2 (Ubuntu 24.04 LTS)** using **Nginx**. This project demonstrates AWS infrastructure provisioning, Linux administration, web server configuration, Git/GitHub version control, and static website hosting.
-
-![Website](screenshots/Getting-accesible-from-browser.png)
+A simple static website hosted on an **AWS EC2 Ubuntu 24.04 LTS** instance using the **Nginx Web Server**. This project was completed as part of an **AWS DevOps Engineer Intern Assignment** and demonstrates AWS infrastructure setup, Linux administration, web server deployment, Git/GitHub workflow, and technical documentation.
 
 ---
 
-# 📋 Project Overview
+## 📖 Project Overview
 
-This project demonstrates how to:
+This project covers the complete deployment of a static HTML website on AWS EC2 using Nginx.
+
+### Objectives
 
 - Launch an Ubuntu EC2 instance
-- Configure Security Groups
-- Connect using SSH
-- Install and configure Nginx
-- Deploy a static HTML website
-- Associate an Elastic IP
-- Manage Linux services
+- Configure AWS Security Groups
+- Connect to the server using SSH
+- Install and manage Nginx
+- Deploy a custom HTML website
+- Associate an Elastic IP (Bonus)
 - Upload the project to GitHub
+- Document the complete deployment process
 
 ---
 
 # 🏗️ Architecture
 
 ```
-                 Internet
-                     │
-                     ▼
-          Elastic IP (13.207.231.230)
-                     │
-                     ▼
-      AWS Security Group (22,80)
-                     │
-                     ▼
-      Ubuntu EC2 (t2.micro)
-                     │
-                     ▼
-             Nginx Web Server
-                     │
-                     ▼
-      /var/www/html/index.html
+                    Internet
+                         │
+                         ▼
+                Elastic IP (Public IP)
+                         │
+                         ▼
+              AWS Security Group
+              (SSH 22 | HTTP 80)
+                         │
+                         ▼
+             Ubuntu EC2 Instance (t2.micro)
+                         │
+                         ▼
+                 Nginx Web Server
+                         │
+                         ▼
+             /var/www/html/index.html
+                         │
+                         ▼
+                   Static Website
 ```
 
 ---
 
 # 🛠 Technologies Used
 
-- AWS EC2
+- Amazon EC2
 - Ubuntu Server 24.04 LTS
 - Nginx
 - Linux
@@ -73,190 +77,304 @@ AWS-Nginx-Web-Server/
 ├── README.md
 ├── nginx-restart.sh
 ├── screenshots/
+│   ├── ec2-instance-summary.png
+│   ├── security-group-created.png
+│   ├── security-group.png
+│   ├── inbound-rules.png
+│   ├── ssh-connection.png
+│   ├── ubuntu-system-update.png
+│   ├── nginx-running.png
+│   ├── website-source-code.png
+│   ├── website-browser.png
+│   ├── curl-verification.png
+│   ├── elastic-ip-attached.png
+│   ├── running-processes.png
+│   ├── htop-monitoring.png
+│   └── ...
+│
 └── report/
+    └── AWS_DevOps_Report.pdf
 ```
 
 ---
 
-# 1️⃣ Launch EC2 Instance
+# ✅ Task 1 – Create an AWS EC2 Instance
 
-Created an Ubuntu EC2 instance and configured networking.
+## Launch Ubuntu EC2 Instance
 
-![](screenshots/instance-summary.png)
+Created an Ubuntu Server 24.04 LTS EC2 instance.
 
----
-
-# 2️⃣ Configure Security Group
-
-Allowed inbound traffic for SSH (22) and HTTP (80).
-
-![](screenshots/Security-group.png)
-
-Additional inbound rule verification.
-
-![](screenshots/inbound-rule.png)
+![](screenshots/ec2-instance-summary.png)
 
 ---
 
-# 3️⃣ Connect to EC2 via SSH
+## Create Security Group
 
-Successfully connected using the generated key pair.
+Configured a Security Group allowing:
 
-![](screenshots/connected-to-instance.png)
+- SSH (22)
+- HTTP (80)
+
+![](screenshots/security-group-created.png)
 
 ---
 
-# 4️⃣ Update Ubuntu Packages
+## Verify Security Group
+
+![](screenshots/security-group.png)
+
+### Inbound Rules
+
+![](screenshots/inbound-rules.png)
+
+### Updated Security Group
+
+![](screenshots/security-group-updated.png)
+
+---
+
+## Connect to EC2 via SSH
+
+Successfully connected using SSH.
+
+![](screenshots/ssh-connection.png)
+
+---
+
+# ✅ Task 2 – Linux Basics
+
+## Update Packages
 
 ```bash
 sudo apt update
 sudo apt upgrade -y
 ```
 
-![](screenshots/updated-upgraded-ec2.png)
+![](screenshots/ubuntu-system-update.png)
 
 ---
 
-# 5️⃣ Install Nginx
+## Install Nginx
 
 ```bash
 sudo apt install nginx -y
 ```
 
-Enable Nginx
+---
+
+## Enable Nginx
 
 ```bash
 sudo systemctl enable nginx
 ```
 
-Restart Nginx
+---
+
+## Restart Nginx
 
 ```bash
 sudo systemctl restart nginx
 ```
 
-![](screenshots/enabled-nginx.png)
+---
+
+## Check Nginx Status
+
+```bash
+sudo systemctl status nginx
+```
+
+![](screenshots/nginx-running.png)
 
 ---
 
-# 6️⃣ Linux Administration Commands
-
-Disk Usage
+## Disk Usage
 
 ```bash
 df -h
 ```
 
-Memory Usage
+---
+
+## Memory Usage
 
 ```bash
 free -h
 ```
 
-Processes
+---
+
+## Running Processes
 
 ```bash
 ps aux
 ```
 
-Process Monitoring
-
-![](screenshots/ps-aux.png)
-
-System Monitoring
-
-![](screenshots/htop-command.png)
+![](screenshots/running-processes.png)
 
 ---
 
-# 7️⃣ Deploy Static Website
+## Process Monitoring
 
-Replaced the default Nginx page.
+```bash
+htop
+```
+
+![](screenshots/htop-monitoring.png)
+
+---
+
+# ✅ Task 3 – Host a Simple Website
+
+The default Nginx page was replaced with a custom HTML page containing:
+
+- Name
+- College
+- Branch
+- Email
+- Current Date
+
+### Edit Website
 
 ```bash
 sudo nano /var/www/html/index.html
 ```
 
-![](screenshots/cat-%20updated-html-file.png)
+![](screenshots/website-source-code.png)
 
 ---
 
-# 8️⃣ Website Accessible
+## Website Accessible from Browser
 
-The website is successfully accessible through the browser.
-
-![](screenshots/Getting-accesible-from-browser.png)
-
-Command-line verification.
-
-![](screenshots/cmd-curl-accesible.png)
-
----
-
-# 9️⃣ Associate Elastic IP
-
-Created and associated an Elastic IP to ensure a static public IP.
-
-![](screenshots/elastic-ip-address-attached.png)
-
-![](screenshots/ilastic-ip-assosiated.png)
-
----
-
-# 🔟 EC2 Configuration Summary
-
-Instance Details
-
-![](screenshots/instance-summary-for-instance.png)
-
-Updated Security Group
-
-![](screenshots/updated-security-group.png)
-
-Security Group Verification
-
-![](screenshots/securitygroup-changed.png)
-
----
-
-# 💻 Commands Used
-
-```bash
-sudo apt update
-sudo apt upgrade -y
-sudo apt install nginx -y
-sudo systemctl status nginx
-sudo systemctl restart nginx
-sudo systemctl enable nginx
-df -h
-free -h
-ps aux
-htop
+```
+http://13.207.231.230
 ```
 
-Command Execution
-
-![](screenshots/command-used-throughout.png)
+![](screenshots/website-browser.png)
 
 ---
 
-# 📜 Bonus Task
+## Verify Using curl
 
-Shell script to restart Nginx.
+```bash
+curl http://13.207.231.230
+```
+
+![](screenshots/curl-verification.png)
+
+---
+
+# ✅ Task 4 – Git & GitHub
+
+Repository:
+
+**https://github.com/aalok-akarsh/AWS-Nginx-Web-Server**
+
+### Git Commands Used
+
+```bash
+git init
+
+git add .
+
+git commit -m "Initial Commit"
+
+git branch -M main
+
+git remote add origin https://github.com/aalok-akarsh/AWS-Nginx-Web-Server.git
+
+git push -u origin main
+```
+
+---
+
+# ✅ Task 5 – Documentation
+
+The project documentation includes:
+
+- AWS Services Used
+- Linux Commands
+- Problems Faced
+- Learnings
+- Time Taken
+
+The report is available inside:
+
+```
+report/AWS_DevOps_Report.pdf
+```
+
+---
+
+# ⭐ Bonus Task
+
+## Elastic IP
+
+Associated an Elastic IP with the EC2 instance.
+
+![](screenshots/elastic-ip-attached.png)
+
+![](screenshots/elastic-ip-associated.png)
+
+---
+
+## Nginx Restart Script
 
 ```bash
 #!/bin/bash
 
 echo "Restarting Nginx..."
+
 sudo systemctl restart nginx
+
 sudo systemctl status nginx
 ```
 
-Run
+Run:
 
 ```bash
+chmod +x nginx-restart.sh
+
 ./nginx-restart.sh
 ```
+
+---
+
+# 💻 Linux Commands Used
+
+```bash
+sudo apt update
+
+sudo apt upgrade -y
+
+sudo apt install nginx -y
+
+sudo systemctl enable nginx
+
+sudo systemctl restart nginx
+
+sudo systemctl status nginx
+
+df -h
+
+free -h
+
+ps aux
+
+htop
+
+curl http://13.207.231.230
+```
+
+---
+
+# ⚠️ Problems Faced
+
+- Browser initially displayed **"This site can't be reached"**
+- HTTP port was not accessible until Security Group rules were verified
+- Elastic IP was attached to maintain a static public IP
+- Git push conflicts were resolved by fetching and rebasing remote changes
+- Renamed screenshot files for consistent documentation
 
 ---
 
@@ -264,12 +382,27 @@ Run
 
 - AWS EC2 provisioning
 - Security Group configuration
-- Linux administration
-- Nginx installation and configuration
-- Static website deployment
-- Elastic IP association
-- Git & GitHub workflow
-- SSH remote administration
+- SSH connectivity
+- Linux system administration
+- Installing and managing Nginx
+- Hosting static websites
+- Elastic IP management
+- Git and GitHub version control
+- Technical project documentation
+
+---
+
+# 📸 Project Screenshots
+
+| Description | Screenshot |
+|------------|------------|
+| EC2 Instance | ![](screenshots/ec2-instance-summary.png) |
+| Security Group | ![](screenshots/security-group.png) |
+| SSH Login | ![](screenshots/ssh-connection.png) |
+| Ubuntu Update | ![](screenshots/ubuntu-system-update.png) |
+| Nginx Running | ![](screenshots/nginx-running.png) |
+| Website | ![](screenshots/website-browser.png) |
+| Elastic IP | ![](screenshots/elastic-ip-attached.png) |
 
 ---
 
@@ -281,6 +414,6 @@ Run
 
 ---
 
-# ⭐ Repository
+# 📄 License
 
-If you found this project helpful, consider giving it a ⭐ on GitHub.
+This project was created for educational and internship demonstration purposes.
